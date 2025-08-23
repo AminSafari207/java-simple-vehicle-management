@@ -3,8 +3,8 @@ package com.app.model;
 import jakarta.persistence.*;
 
 @Entity
-@Inheritance()
-public class Vehicle<ID extends Number> extends BaseEntity<ID> {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Vehicle<ID> extends BaseEntity<ID> {
     private String brand;
     private String model;
     private int year;
@@ -37,5 +37,21 @@ public class Vehicle<ID extends Number> extends BaseEntity<ID> {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public Registration getRegistration() {
+        return registration;
+    }
+
+    public void setRegistration(Registration registration) {
+        this.registration = registration;
+    }
+
+    public VehicleStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(VehicleStatus status) {
+        this.status = status;
     }
 }

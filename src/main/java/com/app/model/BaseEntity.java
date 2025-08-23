@@ -3,10 +3,10 @@ package com.app.model;
 import jakarta.persistence.*;
 
 @MappedSuperclass
-public class BaseEntity<ID> {
+public abstract class BaseEntity<ID> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BaseEntityGenerator")
-    @SequenceGenerator(name = "BaseEntityGenerator", sequenceName = "base-seq", allocationSize = 0)
+    @SequenceGenerator(name = "BaseEntityGenerator", sequenceName = "base-seq", allocationSize = 1)
     private ID id;
 
     public ID getId() {

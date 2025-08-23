@@ -10,14 +10,6 @@ public class Registration {
     private String plateNumber;
     private LocalDate registrationDate;
 
-    public Registration(String state, String plateNumber, LocalDate registrationDate) {
-        this.state = state;
-        this.plateNumber = plateNumber;
-        this.registrationDate = registrationDate;
-    }
-
-    public Registration() {}
-
     public String getState() {
         return state;
     }
