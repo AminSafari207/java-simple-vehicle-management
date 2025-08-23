@@ -14,23 +14,26 @@ public class Registration {
         return state;
     }
 
-    public void setState(String state) {
-        this.state = state;
-    }
-
     public String getPlateNumber() {
         return plateNumber;
-    }
-
-    public void setPlateNumber(String plateNumber) {
-        this.plateNumber = plateNumber;
     }
 
     public LocalDate getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(LocalDate registrationDate) {
+    public Registration state(String state) {
+        this.state = state;
+        return this;
+    }
+
+    public Registration plateNumber(String plateNumber) {
+        this.plateNumber = plateNumber;
+        return this;
+    }
+
+    public Registration registrationDate(LocalDate registrationDate) {
         this.registrationDate = registrationDate;
+        return this;
     }
 }
