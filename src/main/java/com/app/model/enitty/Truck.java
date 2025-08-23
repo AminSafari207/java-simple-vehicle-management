@@ -4,7 +4,7 @@ import com.app.model.base.Vehicle;
 import jakarta.persistence.Entity;
 
 @Entity
-public class Truck extends Vehicle<Long, Truck> {
+public class Truck extends Vehicle<Truck> {
     private double loadCapacity;
     private int numberOfAxles;
 

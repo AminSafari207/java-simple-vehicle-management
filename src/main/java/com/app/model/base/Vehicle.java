@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Vehicle<ID, T extends Vehicle<ID, T>> extends BaseEntity<ID> {
+public abstract class Vehicle<T extends Vehicle<T>> extends BaseEntity<Long> {
     private String brand;
     private String model;
     private int year;

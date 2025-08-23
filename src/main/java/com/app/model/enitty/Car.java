@@ -4,7 +4,7 @@ import com.app.model.base.Vehicle;
 import jakarta.persistence.Entity;
 
 @Entity
-public class Car extends Vehicle<Long, Car> {
+public class Car extends Vehicle<Car> {
     private int seatingCapacity;
     private String fuelType;
 
