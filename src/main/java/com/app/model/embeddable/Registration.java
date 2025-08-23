@@ -1,4 +1,4 @@
-package com.app.model;
+package com.app.model.embeddable;
 
 import jakarta.persistence.Embeddable;
 

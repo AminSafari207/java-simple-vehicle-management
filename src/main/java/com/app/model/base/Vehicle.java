@@ -1,5 +1,7 @@
-package com.app.model;
+package com.app.model.base;
 
+import com.app.model.enums.VehicleStatus;
+import com.app.model.embeddable.Registration;
 import jakarta.persistence.*;
 
 @Entity

@@ -1,5 +1,6 @@
-package com.app.model;
+package com.app.model.enitty;
 
+import com.app.model.base.Vehicle;
 import jakarta.persistence.Entity;
 
 @Entity
