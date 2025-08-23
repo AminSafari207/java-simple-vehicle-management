@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Vehicle<ID> extends BaseEntity<ID> {
+public abstract class Vehicle<ID, T extends Vehicle<ID, T>> extends BaseEntity<ID> {
     private String brand;
     private String model;
     private int year;
@@ -19,39 +19,48 @@ public abstract class Vehicle<ID> extends BaseEntity<ID> {
         return brand;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
     public String getModel() {
         return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
     }
 
     public int getYear() {
         return year;
     }
 
-    public void setYear(int year) {
-        this.year = year;
-    }
-
     public Registration getRegistration() {
         return registration;
-    }
-
-    public void setRegistration(Registration registration) {
-        this.registration = registration;
     }
 
     public VehicleStatus getStatus() {
         return status;
     }
 
-    public void setStatus(VehicleStatus status) {
+    public T brand(String brand) {
+        this.brand = brand;
+        return self();
+    }
+
+    public T model(String model) {
+        this.model = model;
+        return self();
+    }
+
+    public T year(int year) {
+        this.year = year;
+        return self();
+    }
+
+    public T registration(Registration registration) {
+        this.registration = registration;
+        return self();
+    }
+
+    public T status(VehicleStatus status) {
         this.status = status;
+        return self();
+    }
+
+    private T self() {
+        return (T) this;
     }
 }
