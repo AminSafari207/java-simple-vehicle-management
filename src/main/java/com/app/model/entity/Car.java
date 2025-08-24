@@ -1,4 +1,4 @@
-package com.app.model.enitty;
+package com.app.model.entity;
 
 import com.app.model.base.Vehicle;
 import jakarta.persistence.Entity;

@@ -1,6 +1,6 @@
 package com.app.repository.Impl;
 
-import com.app.model.enitty.Car;
+import com.app.model.entity.Car;
 import com.app.repository.CarRepository;
 import jakarta.persistence.EntityManager;
 
