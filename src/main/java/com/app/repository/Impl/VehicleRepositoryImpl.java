@@ -29,7 +29,7 @@ public abstract class VehicleRepositoryImpl<ID, T extends Vehicle<T>> implements
 
     @Override
     public List<T> findAll() {
-        String jpql = "select v from Vehicle v";
+        String jpql = "select v from " + classRef.getSimpleName() + " v";
 
         return em.createQuery(jpql, classRef).getResultList();
     }
