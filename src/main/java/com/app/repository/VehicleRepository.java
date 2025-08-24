@@ -2,8 +2,8 @@ package com.app.repository;
 
 import com.app.model.base.Vehicle;
 
-import java.util.Optional;
+import java.util.List;
 
-public interface VehicleRepository<ID, T extends Vehicle<ID, T>> extends CrudRepository<ID, T> {
-    public Optional<T> findByBrand(String brand);
+public interface VehicleRepository<ID, T extends Vehicle<T>> extends CrudRepository<ID, T> {
+    public List<T> findByBrand(String brand);
 }

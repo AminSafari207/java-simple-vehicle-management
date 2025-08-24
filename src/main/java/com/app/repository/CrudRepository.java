@@ -8,8 +8,8 @@ import java.util.Optional;
 public interface CrudRepository<ID, T> {
     T save(T entity);
 
-    Optional<T> findById(ID id);
     List<T> findAll();
+    Optional<T> findById(ID id);
 
-    boolean deleteById(ID id);
+    boolean deleteById(ID id) throws Exception;
 }
