@@ -25,4 +25,11 @@ public class Car extends Vehicle<Car> {
         this.fuelType = fuelType;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+                "\nSeating Capacity: " + seatingCapacity +
+                "\nFuel Type: " + fuelType;
+    }
 }

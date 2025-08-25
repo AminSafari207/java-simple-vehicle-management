@@ -25,4 +25,11 @@ public class Truck extends Vehicle<Truck> {
         this.numberOfAxles = numberOfAxles;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+                "\nLoad Capacity: " + loadCapacity +
+                "\nNumber of Axles: " + numberOfAxles;
+    }
 }

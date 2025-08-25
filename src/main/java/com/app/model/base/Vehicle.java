@@ -65,4 +65,14 @@ public abstract class Vehicle<T extends Vehicle<T>> extends BaseEntity<Long> {
     private T self() {
         return (T) this;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+                "\nBrand: " + brand +
+                "\nModel: " + model +
+                "\nYear: " + year +
+                "\nStatus: " + status +
+                "\n--- Registration ---" + registration;
+    }
 }

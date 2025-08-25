@@ -36,4 +36,13 @@ public class Registration {
         this.registrationDate = registrationDate;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "\n--- Registration ---" +
+                "\nState: " + state +
+                "\nPlate: " + plateNumber +
+                "\nRegistration Date: " + registrationDate +
+                "\n-------------------";
+    }
 }
