@@ -22,7 +22,7 @@ public class TruckService extends VehicleServiceImpl<Long, Truck> {
     @Override
     protected void validateSpecificVehicleFields(Truck v) {
         if (v.getNumberOfAxles() < 2) throw new IllegalArgumentException("numberOfAxles must be higher than 1.");
-        if (v.getLoadCapacity() < 5D && v.getLoadCapacity() > 100D) throw new IllegalArgumentException("loadCapacity must be between 5 and 100.");
+        if (v.getLoadCapacity() < 5D || v.getLoadCapacity() > 100D) throw new IllegalArgumentException("loadCapacity must be between 5 and 100.");
     }
 
 }
