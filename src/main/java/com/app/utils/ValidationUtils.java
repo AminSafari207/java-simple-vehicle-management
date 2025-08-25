@@ -1,10 +1,12 @@
 package com.app.utils;
 
+import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Map;
 
 public class ValidationUtils {
     private ValidationUtils() {
-        throw new IllegalStateException("'ValidationUtils' Can not be instantiated.");
+        throw new IllegalStateException("'ValidationUtils' cannot be instantiated.");
     }
 
     public static void validateIdLong(Long id, String logName) {
@@ -33,5 +35,16 @@ public class ValidationUtils {
         validateNotNull(collection, logName);
         if (collection.isEmpty())
             throw new IllegalArgumentException(logName + " cannot be empty.");
+    }
+
+    public static void validateMapBasics(Map<?, ?> map, String logName) {
+        validateNotNull(map, logName);
+        if (map.isEmpty()) throw new IllegalArgumentException(logName + " cannot be empty.");
+    }
+
+    public static void validateLocalDate(LocalDate date, String logName) {
+        validateNotNull(date, logName);
+        if (date.isAfter(LocalDate.now())) throw new IllegalArgumentException(logName + " cannot be in the future.");
+        if (date.isBefore(LocalDate.of(1900, 1, 1))) throw new IllegalArgumentException(logName + " cannot be older than 1900/01/01.");
     }
 }
