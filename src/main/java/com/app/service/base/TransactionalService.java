@@ -14,7 +14,7 @@ public abstract class TransactionalService {
         this.emf = emf;
     }
 
-    public void executeTransaction(Consumer<EntityManager> consumer) {
+    public void executeTransactionVoid(Consumer<EntityManager> consumer) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
