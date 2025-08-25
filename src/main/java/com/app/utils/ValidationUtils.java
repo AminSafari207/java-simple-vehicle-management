@@ -3,6 +3,10 @@ package com.app.utils;
 import java.util.Collection;
 
 public class ValidationUtils {
+    private ValidationUtils() {
+        throw new IllegalStateException("'ValidationUtils' Can not be instantiated.");
+    }
+
     public static void validateIdLong(Long id, String logName) {
         validateNotNull(id, logName);
         if (id < 0) throw new IllegalArgumentException(logName + " must be 0 or positive.");
