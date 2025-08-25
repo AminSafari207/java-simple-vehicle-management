@@ -18,6 +18,11 @@ public abstract class VehicleRepositoryImpl<ID, T extends Vehicle<T>> implements
     }
 
     @Override
+    public Class<T> getClassRef() {
+        return classRef;
+    }
+
+    @Override
     public T save(T vehicle) {
         if (vehicle.getId() == null) {
             em.persist(vehicle);

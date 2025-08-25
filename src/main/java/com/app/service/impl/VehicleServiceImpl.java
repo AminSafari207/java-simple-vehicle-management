@@ -66,7 +66,7 @@ public abstract class VehicleServiceImpl<ID, T extends Vehicle<T>> extends Trans
             VehicleRepository<ID, T> repo = repo(em);
 
             T vehicle = repo.findById(id).orElseThrow(
-                    () -> new VehicleNotFoundException("Vehicle with ID '" + id + "' not found.")
+                    () -> new VehicleNotFoundException(repo.getClassRef().getSimpleName() + " with ID '" + id + "' not found.")
             );
 
             if (updateMap.containsKey("model")) {
