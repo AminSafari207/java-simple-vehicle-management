@@ -1,4 +1,4 @@
-package com.app.repository.Impl;
+package com.app.repository.impl;
 
 import com.app.model.entity.Truck;
 import com.app.repository.TruckRepository;

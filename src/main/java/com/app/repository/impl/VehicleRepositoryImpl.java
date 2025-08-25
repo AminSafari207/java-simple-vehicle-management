@@ -1,4 +1,4 @@
-package com.app.repository.Impl;
+package com.app.repository.impl;
 
 import com.app.model.base.Vehicle;
 import com.app.repository.VehicleRepository;
