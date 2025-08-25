@@ -73,6 +73,6 @@ public abstract class Vehicle<T extends Vehicle<T>> extends BaseEntity<Long> {
                 "\nModel: " + model +
                 "\nYear: " + year +
                 "\nStatus: " + status +
-                "\n--- Registration ---" + registration;
+                "\n" + registration;
     }
 }

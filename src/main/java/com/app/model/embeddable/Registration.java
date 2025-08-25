@@ -39,7 +39,7 @@ public class Registration {
 
     @Override
     public String toString() {
-        return "\n--- Registration ---" +
+        return "--- Registration ---" +
                 "\nState: " + state +
                 "\nPlate: " + plateNumber +
                 "\nRegistration Date: " + registrationDate +
