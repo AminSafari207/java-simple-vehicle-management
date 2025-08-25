@@ -15,5 +15,5 @@ public interface VehicleService<ID, T extends Vehicle<T>> {
 
     T update(ID id, Map<String, Object> updateMap);
 
-    boolean deleteById(ID id);
+    boolean removeById(ID id);
 }
