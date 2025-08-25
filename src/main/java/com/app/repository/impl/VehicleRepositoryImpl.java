@@ -46,7 +46,7 @@ public abstract class VehicleRepositoryImpl<ID, T extends Vehicle<T>> implements
 
     @Override
     public List<T> findByBrand(String brand) {
-        String jpql = "select v from " + classRef.getSimpleName() + " v where v.brand = :brand";
+        String jpql = "select v from " + classRef.getSimpleName() + " v where lower(v.brand) = :brand";
 
         return em.createQuery(jpql, classRef)
                 .setParameter("brand", brand)

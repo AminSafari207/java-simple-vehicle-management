@@ -47,7 +47,7 @@ public abstract class VehicleServiceImpl<ID, T extends Vehicle<T>> extends Trans
     public List<T> findByBrand(String brand) {
         validateBrand(brand);
 
-        return executeTransaction(em -> repo(em).findByBrand(brand));
+        return executeTransaction(em -> repo(em).findByBrand(brand.toLowerCase()));
     }
 
     @Override
