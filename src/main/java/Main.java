@@ -1,9 +1,12 @@
+import com.app.model.base.BaseEntity;
 import com.app.model.embeddable.Registration;
 import com.app.model.entity.Car;
 import com.app.model.entity.Truck;
 import com.app.model.enums.VehicleStatus;
 import com.app.repository.CarRepository;
+import com.app.service.AllVehiclesService;
 import com.app.service.VehicleService;
+import com.app.service.impl.AllVehiclesServiceImpl;
 import com.app.service.impl.CarService;
 import com.app.service.impl.TruckService;
 import com.app.utils.PrintUtils;
@@ -11,6 +14,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -19,8 +23,10 @@ public class Main {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("postgresql");
         CarService carService = new CarService(emf);
         TruckService truckService = new TruckService(emf);
+        AllVehiclesService<Long> allVehiclesService = new AllVehiclesServiceImpl(emf);
 
-        executeCrudMethodsTest(carService, truckService);
+        createSomeVehicles(carService, truckService);
+        executeCrudMethodsTest(carService, truckService, allVehiclesService);
     }
 
     public static void createSomeVehicles(CarService carService, TruckService truckService) {
@@ -107,15 +113,18 @@ public class Main {
         truckService.create(truck3);
     }
 
-    public static void executeCrudMethodsTest(CarService carService, TruckService truckService) {
-        createSomeVehicles(carService, truckService);
-
+    public static void executeCrudMethodsTest(CarService carService, TruckService truckService, AllVehiclesService<Long> allVehiclesService) {
         carService.update(1L, Map.of("model", "TEST_TEST", "year", 2002, "brand", "TEST_BRAND"));
-        truckService.update(1L, Map.of("model", "TEST_TEST", "year", 2002));
+//        truckService.update(1L, Map.of("model", "TEST_TEST", "year", 2002));
         truckService.removeById(6L);
 
         PrintUtils.printList("All Cars List", carService.findAll());
         PrintUtils.printList("Trucks By Brand 'Volvo'", truckService.findByBrand("volvo"));
-        PrintUtils.printList("Car By ID '3'", List.of(carService.findById(3L).get()));
+        PrintUtils.printList("Car By ID '3'", List.of(carService.findById(3L)));
+        PrintUtils.printList("All Vehicles by AllVehiclesService", allVehiclesService.findAll()
+                .stream()
+                .sorted(Comparator.comparing(BaseEntity::getId))
+                .toList()
+        );
     }
 }
