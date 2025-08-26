@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class AllVehiclesServiceImpl extends AllVehiclesBaseServiceImpl<Long> {
+public class AllVehiclesServiceImpl extends AllVehiclesBaseServiceImpl {
     public AllVehiclesServiceImpl(EntityManagerFactory emf) {
         super(emf);
     }
@@ -35,11 +35,11 @@ public class AllVehiclesServiceImpl extends AllVehiclesBaseServiceImpl<Long> {
                 .toList();
     }
 
-    public double calculateAvgYears() {
+    public int calculateAvgYears() {
         List<Vehicle<?>> allVehicles = findAll();
 
-        return allVehicles.stream()
-                .mapToDouble(Vehicle::getYear)
+        return (int) allVehicles.stream()
+                .mapToInt(Vehicle::getYear)
                 .average()
                 .orElse(0);
     }

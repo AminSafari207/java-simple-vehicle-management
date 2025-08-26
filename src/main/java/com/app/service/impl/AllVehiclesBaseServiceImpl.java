@@ -11,7 +11,7 @@ import jakarta.persistence.EntityManagerFactory;
 import java.util.List;
 import java.util.Optional;
 
-public class AllVehiclesBaseServiceImpl<ID> extends TransactionalService implements AllVehiclesService<ID> {
+public abstract class AllVehiclesBaseServiceImpl extends TransactionalService implements AllVehiclesService<Long> {
     public AllVehiclesBaseServiceImpl(EntityManagerFactory emf) {
         super(emf);
     }
@@ -31,7 +31,7 @@ public class AllVehiclesBaseServiceImpl<ID> extends TransactionalService impleme
     }
 
     @Override
-    public Optional<Vehicle<?>> findById(ID id) {
+    public Optional<Vehicle<?>> findById(Long id) {
         return executeTransaction(em -> repo(em).findById(id));
     }
 }

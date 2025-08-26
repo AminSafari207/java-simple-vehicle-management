@@ -3,9 +3,8 @@ import com.app.model.embeddable.Registration;
 import com.app.model.entity.Car;
 import com.app.model.entity.Truck;
 import com.app.model.enums.VehicleStatus;
-import com.app.repository.CarRepository;
 import com.app.service.AllVehiclesService;
-import com.app.service.VehicleService;
+import com.app.service.impl.AllVehiclesBaseServiceImpl;
 import com.app.service.impl.AllVehiclesServiceImpl;
 import com.app.service.impl.CarService;
 import com.app.service.impl.TruckService;
@@ -23,10 +22,11 @@ public class Main {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("postgresql");
         CarService carService = new CarService(emf);
         TruckService truckService = new TruckService(emf);
-        AllVehiclesService<Long> allVehiclesService = new AllVehiclesServiceImpl(emf);
+        AllVehiclesServiceImpl allVehiclesService = new AllVehiclesServiceImpl(emf);
 
         createSomeVehicles(carService, truckService);
-        executeCrudMethodsTest(carService, truckService, allVehiclesService);
+        executeCrudMethodsTests(carService, truckService, allVehiclesService);
+        executeStreamTests(allVehiclesService);
     }
 
     public static void createSomeVehicles(CarService carService, TruckService truckService) {
@@ -77,6 +77,33 @@ public class Main {
                 .seatingCapacity(4)
                 .fuelType("Hybrid");
 
+        Car car4 = new Car()
+                .brand("Toyota")
+                .model("Camry")
+                .year(2018)
+                .registration(reg4)
+                .status(VehicleStatus.ACTIVE)
+                .seatingCapacity(4)
+                .fuelType("Petrol");
+
+        Car car5 = new Car()
+                .brand("Tesla")
+                .model("Model S")
+                .year(2021)
+                .registration(reg1)
+                .status(VehicleStatus.MAINTENANCE)
+                .seatingCapacity(5)
+                .fuelType("Electric");
+
+        Car car6 = new Car()
+                .brand("Honda")
+                .model("Accord")
+                .year(2022)
+                .registration(reg2)
+                .status(VehicleStatus.ACTIVE)
+                .seatingCapacity(2)
+                .fuelType("Hybrid");
+
         Truck truck1 = new Truck()
                 .brand("Volvo")
                 .model("FH16")
@@ -104,19 +131,53 @@ public class Main {
                 .loadCapacity(15.0)
                 .numberOfAxles(2);
 
+        Truck truck4 = new Truck()
+                .brand("Volvo")
+                .model("FMX")
+                .year(2017)
+                .registration(reg3)
+                .status(VehicleStatus.INACTIVE)
+                .loadCapacity(9.0)
+                .numberOfAxles(2);
+
+        Truck truck5 = new Truck()
+                .brand("Mercedes")
+                .model("Arocs")
+                .year(2020)
+                .registration(reg4)
+                .status(VehicleStatus.ACTIVE)
+                .loadCapacity(25.0)
+                .numberOfAxles(4);
+
+        Truck truck6 = new Truck()
+                .brand("Ford")
+                .model("Cargo")
+                .year(2019)
+                .registration(reg2)
+                .status(VehicleStatus.ACTIVE)
+                .loadCapacity(8.5)
+                .numberOfAxles(2);
+
         carService.create(car1);
         carService.create(car2);
         carService.create(car3);
+        carService.create(car4);
+        carService.create(car5);
+        carService.create(car6);
+
 
         truckService.create(truck1);
         truckService.create(truck2);
         truckService.create(truck3);
+        truckService.create(truck4);
+        truckService.create(truck5);
+        truckService.create(truck6);
     }
 
-    public static void executeCrudMethodsTest(CarService carService, TruckService truckService, AllVehiclesService<Long> allVehiclesService) {
+    public static void executeCrudMethodsTests(CarService carService, TruckService truckService, AllVehiclesServiceImpl allVehiclesService) {
         carService.update(1L, Map.of("model", "TEST_TEST", "year", 2002, "brand", "TEST_BRAND"));
 //        truckService.update(1L, Map.of("model", "TEST_TEST", "year", 2002));
-        truckService.removeById(6L);
+        truckService.removeById(8L);
 
         PrintUtils.printList("All Cars List", carService.findAll());
         PrintUtils.printList("Trucks By Brand 'Volvo'", truckService.findByBrand("volvo"));
@@ -125,6 +186,36 @@ public class Main {
                 .stream()
                 .sorted(Comparator.comparing(BaseEntity::getId))
                 .toList()
+        );
+    }
+
+    public static void executeStreamTests(AllVehiclesServiceImpl allVehiclesService) {
+        // #01
+
+        PrintUtils.printList(
+                "All Cars: Seating Capacity > 4",
+                allVehiclesService.getFilteredCars(c -> c.getSeatingCapacity() > 4)
+        );
+
+        // #02
+
+        PrintUtils.printList(
+                "All Trucks: Load Capacity > 10",
+                allVehiclesService.getFilteredTrucks(t -> t.getLoadCapacity() > 10)
+        );
+
+        // #03
+
+        PrintUtils.printList(
+                "Manufacturing Year Average",
+                List.of(allVehiclesService.calculateAvgYears())
+        );
+
+        // #04
+
+        PrintUtils.printList(
+                "Vehicle Groups By Brand and Brand Count",
+                List.of(allVehiclesService.getVehiclesByBrandAndBrandCount())
         );
     }
 }
