@@ -1,37 +1,56 @@
 package com.app.service.impl;
 
 import com.app.model.base.Vehicle;
-import com.app.repository.AllVehiclesRepository;
-import com.app.repository.impl.AllVehiclesRepositoryImpl;
-import com.app.service.AllVehiclesService;
-import com.app.service.base.TransactionalService;
-import jakarta.persistence.EntityManager;
+import com.app.model.entity.Car;
+import com.app.model.entity.Truck;
 import jakarta.persistence.EntityManagerFactory;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
-public class AllVehiclesServiceImpl extends TransactionalService implements AllVehiclesService<Long> {
+public class AllVehiclesServiceImpl extends AllVehiclesBaseServiceImpl<Long> {
     public AllVehiclesServiceImpl(EntityManagerFactory emf) {
         super(emf);
     }
 
-    private AllVehiclesRepository<Long> repo(EntityManager em) {
-        return new AllVehiclesRepositoryImpl(em);
+    public List<Car> getFilteredCars(Predicate<Car> predicate) {
+        List<Vehicle<?>> allVehicles = findAll();
+
+        return allVehicles.stream()
+                .filter(v -> v instanceof Car)
+                .map(v -> (Car) v)
+                .filter(predicate)
+                .toList();
     }
 
-    @Override
-    public List<Vehicle<?>> findAll() {
-        return executeTransaction(em -> repo(em).findAll());
+    public List<Truck> getFilteredTrucks(Predicate<Truck> predicate) {
+        List<Vehicle<?>> allVehicles = findAll();
+
+        return allVehicles.stream()
+                .filter(v -> v instanceof Truck)
+                .map(v -> (Truck) v)
+                .filter(predicate)
+                .toList();
     }
 
-    @Override
-    public List<Vehicle<?>> findByBrand(String brand) {
-        return executeTransaction(em -> repo(em).findByBrand(brand.toLowerCase()));
+    public double calculateAvgYears() {
+        List<Vehicle<?>> allVehicles = findAll();
+
+        return allVehicles.stream()
+                .mapToDouble(Vehicle::getYear)
+                .average()
+                .orElse(0);
     }
 
-    @Override
-    public Optional<Vehicle<?>> findById(Long id) {
-        return executeTransaction(em -> repo(em).findById(id));
+    public Map<String, Long> getVehiclesByBrandAndBrandCount() {
+        List<Vehicle<?>> allVehicles = findAll();
+
+        return allVehicles.stream()
+                .collect(Collectors.groupingBy(
+                        Vehicle::getBrand,
+                        Collectors.counting()
+                ));
     }
 }
