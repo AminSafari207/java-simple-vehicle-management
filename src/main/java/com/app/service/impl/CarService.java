@@ -28,4 +28,73 @@ public class CarService extends VehicleServiceImpl<Long, Car> {
     public void validateSeatingCapacity(int seatingCapacity) {
         if (seatingCapacity < 1 || seatingCapacity > 20) throw new IllegalArgumentException("seatingCapacity must be between 1 and 20");
     }
+
+    public void testDetachThenChange() {
+        Long carId = 3L;
+        String newFuelType = "TEST_FUEL_TYPE";
+
+        executeTransactionVoid(em -> {
+            Car managedCarBecauseRead = em.find(Car.class, carId);
+
+            String fuelTypeBefore = managedCarBecauseRead.getFuelType();
+
+            boolean isManagedBeforeDetach = em.contains(managedCarBecauseRead);
+            em.detach(managedCarBecauseRead);
+            boolean isManagedAfterDetach = em.contains(managedCarBecauseRead);
+
+            managedCarBecauseRead.fuelType(newFuelType);
+
+            em.flush();
+
+            String newFetchedFuelType = em.find(Car.class, carId).getFuelType();
+
+            System.out.println("###########################");
+            System.out.println();
+            System.out.println("Fuel type at first: " + fuelTypeBefore);
+            System.out.println("Is managed before detach: " + isManagedBeforeDetach);
+            System.out.println("Detaching managed fetched Car...");
+            System.out.println("Is managed after detach: " + isManagedAfterDetach);
+            System.out.println("Changing entity fuelType field...");
+            System.out.println("Entity manager flushed right now...");
+            System.out.println("Fuel type after detached car flush: " + newFetchedFuelType);
+            System.out.println();
+            System.out.println("###########################");
+        });
+    }
+
+    public void testDetachThenMerge() {
+        Long carId = 4L;
+        String newFuelType = "TEST_FUEL_TYPE";
+
+        executeTransactionVoid(em -> {
+            Car managedCarBecauseRead = em.find(Car.class, carId);
+
+            String fuelTypeBefore = managedCarBecauseRead.getFuelType();
+
+            boolean isManagedBeforeDetach = em.contains(managedCarBecauseRead);
+            em.detach(managedCarBecauseRead);
+            boolean isManagedAfterDetach = em.contains(managedCarBecauseRead);
+
+            managedCarBecauseRead.fuelType(newFuelType);
+
+            em.merge(managedCarBecauseRead);
+            em.flush();
+
+            System.out.println("###########################");
+            System.out.println();
+            System.out.println("Fuel type at first: " + fuelTypeBefore);
+            System.out.println("Is managed before detach: " + isManagedBeforeDetach);
+            System.out.println("Detaching managed fetched Car...");
+            System.out.println("Is managed after detach: " + isManagedAfterDetach);
+            System.out.println("Changing Car entity fuelType field...");
+            System.out.println("Merging Car entity with new fuelType...");
+            System.out.println("Entity manager flushed right now...");
+        });
+
+        String newFetchedFuelType = findById(carId).get().getFuelType();
+
+        System.out.println("New fetched fuel type: " + newFetchedFuelType);
+        System.out.println();
+        System.out.println("###########################");
+    }
 }

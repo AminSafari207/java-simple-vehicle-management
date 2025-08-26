@@ -27,6 +27,8 @@ public class Main {
         createSomeVehicles(carService, truckService);
         executeCrudMethodsTests(carService, truckService, allVehiclesService);
         executeStreamTests(allVehiclesService);
+        carService.testDetachThenChange();
+        carService.testDetachThenMerge();
     }
 
     public static void createSomeVehicles(CarService carService, TruckService truckService) {
